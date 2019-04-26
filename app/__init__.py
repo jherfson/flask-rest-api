@@ -12,4 +12,7 @@ def create_app(test_config=None):
     # Criando instancia do banco de dados
     db.init_app(app)
 
+    # Aplicando regras de CORS
+    CORS(app, resources={r"/*": {"origins": "*"}})
+
     return app
