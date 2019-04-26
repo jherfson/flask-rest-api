@@ -1,11 +1,15 @@
-from flask import (render_template, Flask)
+from flask import (Flask, render_template, make_response)
+import simplejson
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    data = {"message": "Hello World!"}
+    response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 
 @app.route("/home/", methods=('GET',))
