@@ -27,9 +27,11 @@ def post():
     return response
 
 
-@bp.route("/<int:id>", methods=["PUT"])
-def put(id:int=None):
-    return "Update People"
+@bp.route("/<string:lname>", methods=["PUT"])
+def put(lname: str = None):
+    person = request.form
+    response = people.update(lname, person)
+    return response
 
 
 @bp.route("/<int:id>", methods=["DELETE"])
