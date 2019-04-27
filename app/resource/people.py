@@ -33,6 +33,9 @@ def put(lname: str = None):
     return response
 
 
-@bp.route("/<int:id>", methods=["DELETE", ])
-def delete(id:int=None):
-    return "Delete People"
+@bp.route("/<string:lname>", methods=["DELETE", ])
+def delete(lname: str = None):
+    response = people.delete(lname)
+    # response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
+    # response.headers['Content-Type'] = 'application/json'
+    return response
