@@ -5,8 +5,8 @@ import simplejson
 bp = Blueprint('people', __name__, url_prefix='/people')
 
 
-@bp.route("/", methods=["GET"])
-@bp.route("/<string:fname>", methods=["GET"])
+@bp.route("/", methods=["GET", ])
+@bp.route("/<string:fname>", methods=["GET", ])
 def get(fname: str = None):
 
     if fname is None:
@@ -27,13 +27,13 @@ def post():
     return response
 
 
-@bp.route("/<string:lname>", methods=["PUT"])
+@bp.route("/<string:lname>", methods=["PUT", ])
 def put(lname: str = None):
     person = request.form
     response = people.update(lname, person)
     return response
 
 
-@bp.route("/<int:id>", methods=["DELETE"])
+@bp.route("/<int:id>", methods=["DELETE", ])
 def delete(id:int=None):
     return "Delete People"
