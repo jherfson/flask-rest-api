@@ -17,6 +17,10 @@ def create_app():
 
     app.add_url_rule('/', 'root_route', root_route)
 
+    # registrar Bluprints
+    from resource.people import bp as bp_people
+    app.register_blueprint(bp_people)
+
     return app
 
 
