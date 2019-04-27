@@ -22,8 +22,6 @@ def get(fname: str = None):
 @bp.route("/", methods=["POST", ])
 def post():
     response = people.create(request.form)
-    # response = make_response(simplejson.dumps("", ensure_ascii=False), 200)
-    # response.headers['Content-Type'] = 'application/json'
     return response
 
 
