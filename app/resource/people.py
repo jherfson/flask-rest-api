@@ -1,5 +1,4 @@
 from flask import (Flask, make_response, Blueprint, request)
-# from repository import people as people
 from controller import people as people
 import simplejson
 
@@ -22,15 +21,10 @@ def get(fname: str = None):
 
 @bp.route("/", methods=["POST", ])
 def post():
-    person = {
-        "fname": request.form['fname'],
-        "lname": request.form['lname']
-    }
-
-    data = people.create(person)
-    response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    data = people.create(request.form)
+    # response = make_response(simplejson.dumps("", ensure_ascii=False), 200)
+    # response.headers['Content-Type'] = 'application/json'
+    return data
 
 
 @bp.route("/<int:id>", methods=["PUT"])
