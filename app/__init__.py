@@ -1,10 +1,10 @@
-from flask import (Flask)
+from flask import (Flask, make_response)
 from .model.db import db
 from flask_cors import CORS
 import simplejson
 
 
-def create_app(test_config=None):
+def create_app():
 
     # Cria a configura a aplicação
     app = Flask(__name__, instance_relative_config=True)
@@ -15,4 +15,18 @@ def create_app(test_config=None):
     # Aplicando regras de CORS
     CORS(app, resources={r"/*": {"origins": "*"}})
 
+    app.add_url_rule('/', 'root_route', root_route)
+
     return app
+
+
+# defino a funcao que retorna a rota principal da minha API
+def root_route():
+
+    resposta = {
+        "message": """Bem Vindo(a) a API Backend com Flask do FLISOL 2019."""
+    }
+
+    response = make_response(simplejson.dumps(resposta, ensure_ascii=False), 200)
+    response.headers['Content-Type'] = 'application/json'
+    return response
