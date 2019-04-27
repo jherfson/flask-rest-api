@@ -27,8 +27,9 @@ def post():
 
 @bp.route("/<string:lname>", methods=["PUT", ])
 def put(lname: str = None):
-    person = request.form
-    response = people.update(lname, person)
+    data = people.update(lname, request.form)
+    response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
+    response.headers['Content-Type'] = 'application/json'
     return response
 
 
