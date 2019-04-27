@@ -21,10 +21,10 @@ def get(fname: str = None):
 
 @bp.route("/", methods=["POST", ])
 def post():
-    data = people.create(request.form)
+    response = people.create(request.form)
     # response = make_response(simplejson.dumps("", ensure_ascii=False), 200)
     # response.headers['Content-Type'] = 'application/json'
-    return data
+    return response
 
 
 @bp.route("/<int:id>", methods=["PUT"])
