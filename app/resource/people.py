@@ -1,4 +1,4 @@
-from flask import (make_response, Blueprint, request)
+from flask import (make_response, Blueprint, request, abort)
 from controller import people as people
 import simplejson
 
@@ -6,13 +6,18 @@ bp = Blueprint('people', __name__, url_prefix='/people')
 
 
 @bp.route("/", methods=["GET", ])
-@bp.route("/<string:fname>", methods=["GET", ])
-def get(fname: str = None):
+@bp.route("/<string:lname>", methods=["GET", ])
+def get(lname: str = None):
 
-    if fname is None:
+    if lname is None:
         data = people.read_all()
     else:
-        data = people.read_one(fname)
+        data = people.read_one(lname)
+        if data is None:
+            # otherwise, nope, not found
+            abort(
+                404, "Person with last name {lname} not found".format(lname=lname)
+            )
 
     response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
     response.headers['Content-Type'] = 'application/json'
