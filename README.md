@@ -11,3 +11,5 @@ API criada no [FLISOL 2019](https://flisol.info/FLISOL2019/Brasil/SaoLuis) usand
 |Read    |GET       |Read the information about a person or collection of a person
 |Update  |PUT       |Update the information about an existing person
 |Delete  |DELETE    |Delete a person
+
+### [LICENSE](./LICENSE)
