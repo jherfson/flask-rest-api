@@ -19,17 +19,12 @@ def read_one(lname):
     :param lname:   last name of person to find
     :return:        person matching last name
     """
-    person = ""
 
     # Does the person exist in people?
-    if lname in people.PEOPLE:
-        person = people.PEOPLE.get(lname)
-
-    # otherwise, nope, not found
+    if lname not in people.PEOPLE:
+        return None
     else:
-        abort(
-            404, "Person with last name {lname} not found".format(lname=lname)
-        )
+        person = people.PEOPLE.get(lname)
 
     return person
 
