@@ -26,7 +26,8 @@ def get(lname: str = None):
 
 @bp.route("/", methods=["POST", ])
 def post():
-    response = people.create(request.form)
+    person = request.form
+    response = people.create(person)
     return response
 
 
@@ -41,6 +42,4 @@ def put(lname: str = None):
 @bp.route("/<string:lname>", methods=["DELETE", ])
 def delete(lname: str = None):
     response = people.delete(lname)
-    # response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
-    # response.headers['Content-Type'] = 'application/json'
     return response
