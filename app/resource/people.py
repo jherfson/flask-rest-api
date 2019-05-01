@@ -27,7 +27,27 @@ def get(lname: str = None):
 @bp.route("/", methods=["POST", ])
 def post():
     person = request.form
-    response = people.create(person)
+    data = people.create(person)
+
+    message = {
+        "success": {
+            "message": "{lname} successfully created".format(lname=person.get("lname", None))
+        },
+        "fail": {
+            "message": "Person with last name {lname} already exists".format(lname=person.get("lname", None))
+        },
+    }
+
+    if data is True:
+        response = make_response(simplejson.dumps(message["success"], ensure_ascii=False), 201)
+        response.headers['Content-Type'] = 'application/json'
+
+    # Otherwise, they exist, that's an error
+    else:
+        response = make_response(simplejson.dumps(message["fail"], ensure_ascii=False), 406)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
     return response
 
 
