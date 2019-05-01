@@ -5,6 +5,10 @@ def get_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+"""
+These are the data to be handled and manipulated by the API in memory execution time.
+They simulate data coming from the database.
+"""
 PEOPLE = {
     "Farrell": {
         "fname": "Doug",

@@ -1,4 +1,4 @@
-from flask import (make_response, Blueprint, request, abort)
+from flask import (make_response, Blueprint, request)
 from controller import people as people
 import simplejson
 

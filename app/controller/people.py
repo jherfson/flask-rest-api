@@ -1,4 +1,3 @@
-from flask import make_response, abort
 from repository import people as people
 
 
@@ -8,6 +7,7 @@ def read_all():
     with the complete lists of people
     :return: json string of list of people
     """
+
     # Create the list of people from our data
     return [people.PEOPLE[key] for key in sorted(people.PEOPLE.keys())]
 
@@ -60,6 +60,7 @@ def update(lname, person):
     :param person:  person to update
     :return:        updated person structure
     """
+
     if lname not in people.PEOPLE:
         return None
 
