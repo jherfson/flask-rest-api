@@ -53,9 +53,23 @@ def post():
 
 @bp.route("/<string:lname>", methods=["PUT", ])
 def put(lname: str = None):
-    data = people.update(lname, request.form)
-    response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
-    response.headers['Content-Type'] = 'application/json'
+    person = request.form
+    data = people.update(lname, person)
+
+    message = {
+        "fail": {
+            "message": "Person with last name {lname} not found".format(lname=lname)
+        }
+    }
+
+    if data is None:
+        response = make_response(simplejson.dumps(message["fail"], ensure_ascii=False), 404)
+        response.headers['Content-Type'] = 'application/json'
+    else:
+        response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
     return response
 
 
