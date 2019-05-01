@@ -14,10 +14,10 @@ def get(lname: str = None):
     else:
         data = people.read_one(lname)
         if data is None:
-            # otherwise, nope, not found
-            abort(
-                404, "Person with last name {lname} not found".format(lname=lname)
-            )
+            data = {"message": "Person with last name {lname} not found".format(lname=lname)}
+            response = make_response(simplejson.dumps(data, ensure_ascii=False), 404)
+            response.headers['Content-Type'] = 'application/json'
+            return response
 
     response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
     response.headers['Content-Type'] = 'application/json'
