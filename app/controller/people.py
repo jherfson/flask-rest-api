@@ -20,9 +20,10 @@ def read_one(lname):
     :return:        person matching last name
     """
 
-    # Does the person exist in people?
     if lname not in people.PEOPLE:
         return None
+
+    # Does the person exist in people?
     else:
         person = people.PEOPLE.get(lname)
 
@@ -59,18 +60,15 @@ def update(lname, person):
     :param person:  person to update
     :return:        updated person structure
     """
+    if lname not in people.PEOPLE:
+        return None
+
     # Does the person exist in people?
-    if lname in people.PEOPLE:
+    else:
         people.PEOPLE[lname]["fname"] = person.get("fname")
         people.PEOPLE[lname]["timestamp"] = people.get_timestamp()
 
-        return people.PEOPLE[lname]
-
-    # otherwise, nope, that's an error
-    else:
-        abort(
-            404, "Person with last name {lname} not found".format(lname=lname)
-        )
+    return people.PEOPLE[lname]
 
 
 def delete(lname):
