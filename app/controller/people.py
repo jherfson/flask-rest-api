@@ -36,6 +36,7 @@ def create(person):
     :param person:  person to create in people structure
     :return:        201 on success, 406 on person exists
     """
+
     lname = person.get("lname", None)
     fname = person.get("fname", None)
 
@@ -46,16 +47,9 @@ def create(person):
             "fname": fname,
             "timestamp": people.get_timestamp(),
         }
-        return make_response(
-            "{lname} successfully created".format(lname=lname), 201
-        )
-
-    # Otherwise, they exist, that's an error
+        return True
     else:
-        abort(
-            406,
-            "Peron with last name {lname} already exists".format(lname=lname),
-        )
+        return False
 
 
 def update(lname, person):
