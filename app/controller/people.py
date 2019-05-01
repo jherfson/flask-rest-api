@@ -77,15 +77,12 @@ def delete(lname):
     :param lname:   last name of person to delete
     :return:        200 on successful delete, 404 if not found
     """
-    # Does the person to delete exist?
-    if lname in people.PEOPLE:
-        del people.PEOPLE[lname]
-        return make_response(
-            "{lname} successfully deleted".format(lname=lname), 200
-        )
 
-    # Otherwise, nope, person to delete not found
+    if lname not in people.PEOPLE:
+        return None
+
+    # Does the person to delete exist?
     else:
-        abort(
-            404, "Person with last name {lname} not found".format(lname=lname)
-        )
+        del people.PEOPLE[lname]
+
+    return True
