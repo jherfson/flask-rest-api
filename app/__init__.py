@@ -1,13 +1,25 @@
+import os
+import simplejson
 from flask import (Flask, make_response)
 from .model import (db, ma)
 from flask_cors import CORS
-import simplejson
+from .config import TestingConfig, DevelopmentConfig, ProductionConfig
+
+SET_CONFIG = {
+    "test": TestingConfig,
+    "default": DevelopmentConfig,
+    "development": DevelopmentConfig,
+    "production": ProductionConfig,
+}
 
 
 def create_app():
 
     # Cria a configura a aplicação
     app = Flask(__name__, instance_relative_config=True)
+
+    flask_config = os.getenv('FLASK_CONFIG', 'default')
+    app.config.from_object(SET_CONFIG[flask_config])
 
     # Criando instancia do banco de dados
     db.init_app(app)
