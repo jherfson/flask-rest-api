@@ -18,6 +18,15 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
 
-class TestConfig(Config):
+class TestingConfig(Config):
     DEBUG = True
     TESTING = True
+
+
+class ProductionConfig(Config):
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_RECORD_QUERIES = True
+    params_conn = os.path.join(basedir, 'people.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + params_conn
+    DEBUG = False
+    TESTING = False
