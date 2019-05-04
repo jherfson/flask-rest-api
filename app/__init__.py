@@ -1,5 +1,5 @@
 from flask import (Flask, make_response)
-from .model.db import db
+from model import db
 from flask_cors import CORS
 import simplejson
 
@@ -10,7 +10,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     # Criando instancia do banco de dados
-    # db.init_app(app)
+    db.init_app(app)
 
     # Aplicando regras de CORS
     CORS(app, resources={r"/*": {"origins": "*"}})
