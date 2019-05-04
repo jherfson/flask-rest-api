@@ -1,12 +1,12 @@
 from datetime import datetime
-from model import db, ma
+from model import (db, ma)
 
 
 class Person(db.Model):
-    __tabename__ = 'person'
-    person_id = db.column(db.Integer, primary_key=True)
-    fname = db.column(db.String)
-    lname = db.column(db.String)
+    __tablename__ = "person"
+    person_id = db.Column(db.Integer, primary_key=True)
+    lname = db.Column(db.String(32))
+    fname = db.Column(db.String(32))
     timestamp = db.column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
