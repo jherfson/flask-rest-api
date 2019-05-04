@@ -1,8 +1,8 @@
 import os
 import simplejson
 from flask import (Flask, make_response)
-from .model import (db, ma)
 from flask_cors import CORS
+from .model import (db, ma)
 from .config import TestingConfig, DevelopmentConfig, ProductionConfig
 
 SET_CONFIG = {
