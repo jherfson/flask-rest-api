@@ -1,5 +1,5 @@
 from datetime import datetime
-from model import db
+from model import db, ma
 
 
 class Person(db.Model):
@@ -8,3 +8,9 @@ class Person(db.Model):
     fname = db.column(db.String)
     lname = db.column(db.String)
     timestamp = db.column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class PersonSchema(ma.ModelSchema):
+    class Meta:
+        model = Person
+        sqla_session = db.session
