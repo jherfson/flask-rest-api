@@ -1,5 +1,5 @@
 from flask import (make_response, Blueprint, request)
-from controller import people as people
+from ..controller import people as people
 import simplejson
 
 bp = Blueprint('people', __name__, url_prefix='/people')
