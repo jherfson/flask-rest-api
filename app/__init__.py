@@ -1,5 +1,5 @@
 from flask import (Flask, make_response)
-from model import db
+from model import db, ma
 from flask_cors import CORS
 import simplejson
 
@@ -11,6 +11,9 @@ def create_app():
 
     # Criando instancia do banco de dados
     db.init_app(app)
+
+    # Initialize Marshmallow
+    ma.init_app(app)
 
     # Aplicando regras de CORS
     CORS(app, resources={r"/*": {"origins": "*"}})
