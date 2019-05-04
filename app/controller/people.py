@@ -1,4 +1,4 @@
-from repository import people as people
+from ..repository import people as people
 
 
 def read_all():
