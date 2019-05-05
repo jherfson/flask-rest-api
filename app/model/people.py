@@ -28,7 +28,11 @@ class PersonSchema(ma.ModelSchema):
         model = Person
         sqla_session = db.session
 
-    notes = fields.Nested("PersonNoteSchema", default=[], many=True)
+    notes = fields.Nested(
+        "PersonNoteSchema",
+        default=[],
+        many=True
+    )
 
 
 class PersonNoteSchema(ma.ModelSchema):

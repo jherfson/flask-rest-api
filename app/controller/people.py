@@ -1,5 +1,6 @@
 from ..model import db
 from ..model.people import Person, PersonSchema
+from ..model.note import Note
 
 
 def read_all():
@@ -10,8 +11,10 @@ def read_all():
     :return: json string of list of people
     """
 
-    # Cria lista de pessoas a partir do Banco
-    people = Person.query.order_by(Person.person_id).all()
+    # Create the list of people from our data
+    people = Person.query.order_by(Person.lname).all()
+
+    # Serialize the data for the response
     person_schema = PersonSchema(many=True)
     return person_schema.dump(people).data
 
@@ -25,7 +28,12 @@ def read_one(person_id):
     :return:          person matching last name
     """
 
-    person = Person.query.filter(Person.person_id == person_id).one_or_none()
+    person = (
+        Person.query.filter(Person.person_id == person_id)
+        .outerjoin(Note)
+        .one_or_none()
+    )
+
     person_schema = PersonSchema()
     return person_schema.dump(person).data
 
