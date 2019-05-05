@@ -10,6 +10,13 @@ class Person(db.Model):
     timestamp = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
+    notes = db.relationship(
+        'Note',
+        backref="person",
+        cascade="all, delete, delete-orphan",
+        single_parent=True,
+        order_by="desc(Note.timestamp)"
+    )
 
 
 class PersonSchema(ma.ModelSchema):
