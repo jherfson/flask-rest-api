@@ -6,6 +6,7 @@ def read_all():
     """
     This function responds to a request for /api/people
     with the complete lists of people
+
     :return: json string of list of people
     """
 
@@ -22,8 +23,9 @@ def read_one(person_id):
     """
     This function responds to a request for /api/people/{lname}
     with one matching person from people
-    :param person_id: person search id
-    :return:        person matching last name
+
+    :param person_id: Id of person to find
+    :return:          person matching last name
     """
 
     # if lname not in people.PEOPLE:
@@ -44,6 +46,7 @@ def create(person):
     """
     This function creates a new person in the people structure
     based on the passed in person data
+
     :param person:  person to create in people structure
     :return:        201 on success, 406 on person exists
     """
@@ -82,23 +85,48 @@ def create(person):
     return schema.dump(new_person).data
 
 
-def update(lname, person):
+def update(person_id, person):
     """
     This function updates an existing person in the people structure
-    :param lname:   last name of person to update in the people structure
-    :param person:  person to update
-    :return:        updated person structure
+
+    :param person_id: Id of the person to update in the people structure
+    :param person:    person to update
+    :return:          updated person structure
     """
 
-    if lname not in people.PEOPLE:
-        return None
+    # if lname not in people.PEOPLE:
+    #     return None
+    #
+    # # Does the person exist in people?
+    # else:
+    #     people.PEOPLE[lname]["fname"] = person.get("fname")
+    #     people.PEOPLE[lname]["timestamp"] = people.get_timestamp()
+    #
+    # return people.PEOPLE[lname]
 
-    # Does the person exist in people?
+    # Get the person requested from the db into session
+    update_person = Person.query.filter(
+        Person.person_id == person_id
+    ).one_or_none()
+
+    if update_person is None:
+        return False
     else:
-        people.PEOPLE[lname]["fname"] = person.get("fname")
-        people.PEOPLE[lname]["timestamp"] = people.get_timestamp()
+        # turn the passed in person into a db object
+        schema = PersonSchema()
+        upd = schema.load(person, session=db.session).data
 
-    return people.PEOPLE[lname]
+        # Set the id to the person we want to update
+        upd.id = update_person.person_id
+
+        # merge the new object into the old and commit it to the db
+        db.session.merge(upd)
+        db.session.commit()
+
+        # return updated person in the response
+        data = schema.dump(update_person).data
+
+        return data
 
 
 def delete(lname):

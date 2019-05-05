@@ -52,22 +52,26 @@ def post():
     return response
 
 
-@bp.route("/<string:lname>", methods=["PUT", ])
-def put(lname: str = None):
+@bp.route("/<string:person_id>", methods=["PUT", ])
+def put(person_id: int = None):
     person = request.form
-    data = people.update(lname, person)
+    data = people.update(person_id, person)
 
     message = {
+        "success": {
+            "message": "{lname} successfully updated".format(lname=person.get("lname", None)),
+            "data": data
+        },
         "fail": {
-            "message": "Person with last name {lname} not found".format(lname=lname)
+            "message": "The Person with ID {person_id} not found".format(person_id=person_id)
         }
     }
 
-    if data is None:
+    if data is False:
         response = make_response(simplejson.dumps(message["fail"], ensure_ascii=False), 404)
         response.headers['Content-Type'] = 'application/json'
     else:
-        response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
+        response = make_response(simplejson.dumps(message["success"], ensure_ascii=False), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
