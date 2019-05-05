@@ -1,5 +1,6 @@
 from flask import (make_response, Blueprint, request)
 from ..controller import people as people
+from . import ReturnMessage
 import simplejson
 
 bp = Blueprint('people', __name__, url_prefix='/people')
@@ -14,7 +15,7 @@ def get(person_id: int = None):
     else:
         data = people.read_one(person_id)
         if data == {}:
-            data = {"message": "The Person with ID {person_id} not found".format(person_id=person_id)}
+            data = {"message": ReturnMessage.GET_MESSAGE.format(person_id=person_id)}
             response = make_response(simplejson.dumps(data, ensure_ascii=False), 404)
             response.headers['Content-Type'] = 'application/json'
             return response
@@ -31,11 +32,11 @@ def post():
 
     message = {
         "success": {
-            "message": "{lname} successfully created".format(lname=person.get("lname", None)),
+            "message": ReturnMessage.POST_SUCCESS_MESSAGE.format(lname=person.get("lname", None)),
             "data": data
         },
         "fail": {
-            "message": "Person with last name {lname} already exists".format(lname=person.get("lname", None))
+            "message": ReturnMessage.POST_FAIL_MESSAGE.format(lname=person.get("lname", None))
         },
     }
 
@@ -59,11 +60,11 @@ def put(person_id: int = None):
 
     message = {
         "success": {
-            "message": "{lname} successfully updated".format(lname=person.get("lname", None)),
+            "message": ReturnMessage.PUT_SUCCESS_FULL.format(lname=person.get("lname", None)),
             "data": data
         },
         "fail": {
-            "message": "The Person with ID {person_id} not found".format(person_id=person_id)
+            "message": ReturnMessage.NOT_FOUND_MESSAGE.format(person_id=person_id)
         }
     }
 
@@ -84,11 +85,11 @@ def delete(person_id: int = None):
 
     message = {
         "success": {
-            "message": "{person_id} successfully deleted".format(person_id=person_id),
+            "message": ReturnMessage.DELETED_SUCCESS_FULL.format(person_id=person_id),
             "data": data
         },
         "fail": {
-            "message": "The Person with ID {person_id} not found".format(person_id=person_id)
+            "message": ReturnMessage.NOT_FOUND_MESSAGE.format(person_id=person_id)
         },
     }
 
