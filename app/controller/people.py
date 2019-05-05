@@ -12,27 +12,31 @@ def read_all():
     # return [people.PEOPLE[key] for key in sorted(people.PEOPLE.keys())]
 
     # Cria lista de pessoas a partir do Banco
-    people = Person.query.order_by(Person.lname).all()
+    people = Person.query.order_by(Person.person_id).all()
     person_schema = PersonSchema(many=True)
     return person_schema.dump(people).data
 
 
-def read_one(lname):
+def read_one(person_id):
     """
     This function responds to a request for /api/people/{lname}
     with one matching person from people
-    :param lname:   last name of person to find
+    :param person_id: person search id
     :return:        person matching last name
     """
 
-    if lname not in people.PEOPLE:
-        return None
+    # if lname not in people.PEOPLE:
+    #     return None
+    #
+    # # Does the person exist in people?
+    # else:
+    #     person = people.PEOPLE.get(lname)
+    #
+    # return person
 
-    # Does the person exist in people?
-    else:
-        person = people.PEOPLE.get(lname)
-
-    return person
+    person = Person.query.filter(Person.person_id == person_id).one_or_none()
+    person_schema = PersonSchema()
+    return person_schema.dump(person).data
 
 
 def create(person):

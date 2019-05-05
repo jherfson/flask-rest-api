@@ -6,15 +6,15 @@ bp = Blueprint('people', __name__, url_prefix='/people')
 
 
 @bp.route("/", methods=["GET", ])
-@bp.route("/<string:lname>", methods=["GET", ])
-def get(lname: str = None):
+@bp.route("/<string:person_id>", methods=["GET", ])
+def get(person_id: int = None):
 
-    if lname is None:
+    if person_id is None:
         data = people.read_all()
     else:
-        data = people.read_one(lname)
-        if data is None:
-            data = {"message": "Person with last name {lname} not found".format(lname=lname)}
+        data = people.read_one(person_id)
+        if data == {}:
+            data = {"message": "The Person with ID {person_id} not found".format(person_id=person_id)}
             response = make_response(simplejson.dumps(data, ensure_ascii=False), 404)
             response.headers['Content-Type'] = 'application/json'
             return response
