@@ -75,3 +75,43 @@ def create(person_id, note):
     return data, 201
 
 
+def update(person_id, note_id, note):
+    """
+    This function updates an existing note related to the passed in
+    person id.
+    :param person_id:       Id of the person the note is related to
+    :param note_id:         Id of the note to update
+    :param content:            The JSON containing the note data
+    :return:                200 on success
+    """
+    update_note = (
+        Note.query.filter(Person.person_id == person_id)
+        .filter(Note.note_id == note_id)
+        .one_or_none()
+    )
+
+    # Did we find an existing note?
+    if update_note is not None:
+
+        # turn the passed in note into a db object
+        schema = NoteSchema()
+        update = schema.load(note, session=db.session).data
+
+        # Set the id's to the note we want to update
+        update.person_id = update_note.person_id
+        update.note_id = update_note.note_id
+
+        # merge the new object into the old and commit it to the db
+        db.session.merge(update)
+        db.session.commit()
+
+        # return updated note in the response
+        data = schema.dump(update_note).data
+
+        return data, 200
+
+    # Otherwise, nope, didn't find that note
+    else:
+        abort(404, f"Note not found for Id: {note_id}")
+
+
