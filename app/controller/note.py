@@ -47,3 +47,31 @@ def read_one(person_id, note_id):
         abort(404, f"Note not found for Id: {note_id}")
 
 
+def create(person_id, note):
+    """
+    This function creates a new note related to the passed in person id.
+    :param person_id:       Id of the person the note is related to
+    :param note:            The JSON containing the note data
+    :return:                201 on success
+    """
+    # get the parent person
+    person = Person.query.filter(Person.person_id == person_id).one_or_none()
+
+    # Was a person found?
+    if person is None:
+        abort(404, f"Person not found for Id: {person_id}")
+
+    # Create a note schema instance
+    schema = NoteSchema()
+    new_note = schema.load(note, session=db.session).data
+
+    # Add the note to the person and database
+    person.notes.append(new_note)
+    db.session.commit()
+
+    # Serialize and return the newly created note in the response
+    data = schema.dump(new_note).data
+
+    return data, 201
+
+
