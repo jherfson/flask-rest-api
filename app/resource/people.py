@@ -31,20 +31,21 @@ def post():
 
     message = {
         "success": {
-            "message": "{lname} successfully created".format(lname=person.get("lname", None))
+            "message": "{lname} successfully created".format(lname=person.get("lname", None)),
+            "data": data
         },
         "fail": {
             "message": "Person with last name {lname} already exists".format(lname=person.get("lname", None))
         },
     }
 
-    if data is True:
-        response = make_response(simplejson.dumps(message["success"], ensure_ascii=False), 201)
+    if data is False:
+        # Otherwise, they exist, that's an error
+        response = make_response(simplejson.dumps(message["fail"], ensure_ascii=False), 406)
         response.headers['Content-Type'] = 'application/json'
 
-    # Otherwise, they exist, that's an error
     else:
-        response = make_response(simplejson.dumps(message["fail"], ensure_ascii=False), 406)
+        response = make_response(simplejson.dumps(message["success"], ensure_ascii=False), 406)
         response.headers['Content-Type'] = 'application/json'
         return response
 

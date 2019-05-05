@@ -1,3 +1,4 @@
+from ..model import db
 from ..model.people import Person, PersonSchema
 
 
@@ -50,16 +51,35 @@ def create(person):
     lname = person.get("lname", None)
     fname = person.get("fname", None)
 
-    # Does the person exist already?
-    if lname not in people.PEOPLE and lname is not None:
-        people.PEOPLE[lname] = {
-            "lname": lname,
-            "fname": fname,
-            "timestamp": people.get_timestamp(),
-        }
-        return True
-    else:
+    # # Does the person exist already?
+    # if lname not in people.PEOPLE and lname is not None:
+    #     people.PEOPLE[lname] = {
+    #         "lname": lname,
+    #         "fname": fname,
+    #         "timestamp": people.get_timestamp(),
+    #     }
+    #     return True
+    # else:
+    #     return False
+
+    existing_person = Person.query \
+        .filter(Person.fname == fname) \
+        .filter(Person.lname == lname) \
+        .one_or_none()
+
+    if existing_person is not None:
         return False
+    else:
+        # Create a person instance using the schema and the passed-in person
+        schema = PersonSchema()
+        new_person = schema.load(person, session=db.session).data
+
+        # Add the person to the database
+        db.session.add(new_person)
+        db.session.commit()
+
+        # Serialize and return the newly created person in the response
+    return schema.dump(new_person).data
 
 
 def update(lname, person):
