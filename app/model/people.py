@@ -1,6 +1,7 @@
 from datetime import datetime
 from . import (db, ma)
 from marshmallow import fields
+from .note import Note
 
 
 class Person(db.Model):
@@ -16,7 +17,7 @@ class Person(db.Model):
         backref="person",
         cascade="all, delete, delete-orphan",
         single_parent=True,
-        order_by="desc(Note.timestamp)",
+        order_by=db.desc(Note.timestamp),
     )
 
 
