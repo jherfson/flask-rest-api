@@ -5,11 +5,12 @@ API criada no [FLISOL 2019](https://flisol.info/FLISOL2019/Brasil/SaoLuis) usand
 
 ### API actions of People
 
-|Action	 |HTTP Verb |Description
-|--------|----------|-----------------------------------------------------------
-|Create  |POST	    |Create a new, unique person
-|Read    |GET       |Read the information about a person or collection of a person
-|Update  |PUT       |Update the information about an existing person
-|Delete  |DELETE    |Delete a person
+|Action	 |HTTP Verb |URL Path                |Description
+|--------|----------|------------------------|---------------------------------------------
+|Create  |POST	    |/api/people/            |URL to create a new person, unique person
+|Read    |GET       |/api/people/            |URL to read a collection of people
+|Read    |GET       |/api/people/{person_id} |URL to read a single person by person_id
+|Update  |PUT       |/api/people/{person_id} |URL to update an existing person by person_id
+|Delete  |DELETE    |/api/people/{person_id} |URL to delete an existing person by person_id
 
 ### [LICENSE](./LICENSE)
