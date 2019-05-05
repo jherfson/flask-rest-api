@@ -5,12 +5,22 @@ API criada no [FLISOL 2019](https://flisol.info/FLISOL2019/Brasil/SaoLuis) usand
 
 ### API actions of People
 
-|Action	 |HTTP Verb |URL Path                |Description
-|--------|----------|------------------------|---------------------------------------------
-|Create  |POST	    |/api/people/            |URL to create a new person, unique person
-|Read    |GET       |/api/people/            |URL to read a collection of people
-|Read    |GET       |/api/people/{person_id} |URL to read a single person by person_id
-|Update  |PUT       |/api/people/{person_id} |URL to update an existing person by person_id
-|Delete  |DELETE    |/api/people/{person_id} |URL to delete an existing person by person_id
+|Action	 |HTTP Verb |URL Path                |Description                                  |
+|--------|----------|------------------------|---------------------------------------------|
+|Create  |POST	    |/api/people/            |URL to create a new person, unique person    |
+|Read    |GET       |/api/people/            |URL to read a collection of people           |
+|Read    |GET       |/api/people/{person_id} |URL to read a single person by person_id     |
+|Update  |PUT       |/api/people/{person_id} |URL to update an existing person by person_id|
+|Delete  |DELETE    |/api/people/{person_id} |URL to delete an existing person by person_id|
+
+### API actions of Notes
+
+|Action	 |HTTP Verb |URL Path                                |Description                                                 |
+|--------|----------|----------------------------------------|------------------------------------------------------------|
+|Create  |POST      |/api/people/{person_id}/notes           |URL to create a new note                                    |
+|Read    |GET       |/api/people/{person_id}/notes/{note_id} |URL to read a single person’s single note                   |
+|Update  |PUT       |/api/people/{person_id}/notes/{note_id} |URL to update a single person’s single note                 |
+|Delete  |DELETE    |/api/people/{person_id}/notes/{note_id} |URL to delete a single person’s single note                 |
+|Read    |GET       |/api/notes                              |URL to get all notes for all people sorted by note.timestamp|
 
 ### [LICENSE](./LICENSE)
