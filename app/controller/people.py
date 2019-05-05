@@ -1,4 +1,4 @@
-from ..repository import people as people
+from ..model.people import Person, PersonSchema
 
 
 def read_all():
@@ -9,7 +9,12 @@ def read_all():
     """
 
     # Create the list of people from our data
-    return [people.PEOPLE[key] for key in sorted(people.PEOPLE.keys())]
+    # return [people.PEOPLE[key] for key in sorted(people.PEOPLE.keys())]
+
+    # Cria lista de pessoas a partir do Banco
+    people = Person.query.order_by(Person.lname).all()
+    person_schema = PersonSchema(many=True)
+    return person_schema.dump(people).data
 
 
 def read_one(lname):
