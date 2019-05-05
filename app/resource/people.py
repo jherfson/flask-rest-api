@@ -78,24 +78,25 @@ def put(person_id: int = None):
     return response
 
 
-@bp.route("/<string:lname>", methods=["DELETE", ])
-def delete(lname: str = None):
-    data = people.delete(lname)
+@bp.route("/<string:person_id>", methods=["DELETE", ])
+def delete(person_id: int = None):
+    data = people.delete(person_id)
 
     message = {
         "success": {
-            "message": "{lname} successfully deleted".format(lname=lname)
+            "message": "{person_id} successfully deleted".format(person_id=person_id),
+            "data": data
         },
         "fail": {
-            "message": "Person with last name {lname} not found".format(lname=lname)
+            "message": "The Person with ID {person_id} not found".format(person_id=person_id)
         },
     }
 
     if data is None:
+        # Otherwise, nope, person to delete not found
         response = make_response(simplejson.dumps(message["fail"], ensure_ascii=False), 404)
         response.headers['Content-Type'] = 'application/json'
 
-    # Otherwise, nope, person to delete not found
     else:
         response = make_response(simplejson.dumps(message["success"], ensure_ascii=False), 200)
         response.headers['Content-Type'] = 'application/json'

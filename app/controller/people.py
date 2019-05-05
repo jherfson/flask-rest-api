@@ -129,18 +129,29 @@ def update(person_id, person):
         return data
 
 
-def delete(lname):
+def delete(person_id):
     """
     This function deletes a person from the people structure
-    :param lname:   last name of person to delete
-    :return:        200 on successful delete, 404 if not found
+
+    :param person_id: Id of the person to delete
+    :return:          200 on successful delete, 404 if not found
     """
 
-    if lname not in people.PEOPLE:
-        return None
+    # if lname not in people.PEOPLE:
+    #     return None
+    #
+    # # Does the person to delete exist?
+    # else:
+    #     del people.PEOPLE[lname]
+    #
+    # return True
 
-    # Does the person to delete exist?
+    # Get the person requested
+    person = Person.query.filter(Person.person_id == person_id).one_or_none()
+
+    if person is None:
+        return
     else:
-        del people.PEOPLE[lname]
-
-    return True
+        db.session.delete(person)
+        db.session.commit()
+        return True
