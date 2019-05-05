@@ -115,3 +115,28 @@ def update(person_id, note_id, note):
         abort(404, f"Note not found for Id: {note_id}")
 
 
+def delete(person_id, note_id):
+    """
+    This function deletes a note from the note structure
+    :param person_id:   Id of the person the note is related to
+    :param note_id:     Id of the note to delete
+    :return:            200 on successful delete, 404 if not found
+    """
+    # Get the note requested
+    note = (
+        Note.query.filter(Person.person_id == person_id)
+        .filter(Note.note_id == note_id)
+        .one_or_none()
+    )
+
+    # did we find a note?
+    if note is not None:
+        db.session.delete(note)
+        db.session.commit()
+        return make_response(
+            "Note {note_id} deleted".format(note_id=note_id), 200
+        )
+
+    # Otherwise, nope, didn't find that note
+    else:
+        abort(404, f"Note not found for Id: {note_id}")
