@@ -10,9 +10,6 @@ def read_all():
     :return: json string of list of people
     """
 
-    # Create the list of people from our data
-    # return [people.PEOPLE[key] for key in sorted(people.PEOPLE.keys())]
-
     # Cria lista de pessoas a partir do Banco
     people = Person.query.order_by(Person.person_id).all()
     person_schema = PersonSchema(many=True)
@@ -27,15 +24,6 @@ def read_one(person_id):
     :param person_id: Id of person to find
     :return:          person matching last name
     """
-
-    # if lname not in people.PEOPLE:
-    #     return None
-    #
-    # # Does the person exist in people?
-    # else:
-    #     person = people.PEOPLE.get(lname)
-    #
-    # return person
 
     person = Person.query.filter(Person.person_id == person_id).one_or_none()
     person_schema = PersonSchema()
@@ -53,17 +41,6 @@ def create(person):
 
     lname = person.get("lname", None)
     fname = person.get("fname", None)
-
-    # # Does the person exist already?
-    # if lname not in people.PEOPLE and lname is not None:
-    #     people.PEOPLE[lname] = {
-    #         "lname": lname,
-    #         "fname": fname,
-    #         "timestamp": people.get_timestamp(),
-    #     }
-    #     return True
-    # else:
-    #     return False
 
     existing_person = Person.query \
         .filter(Person.fname == fname) \
@@ -93,16 +70,6 @@ def update(person_id, person):
     :param person:    person to update
     :return:          updated person structure
     """
-
-    # if lname not in people.PEOPLE:
-    #     return None
-    #
-    # # Does the person exist in people?
-    # else:
-    #     people.PEOPLE[lname]["fname"] = person.get("fname")
-    #     people.PEOPLE[lname]["timestamp"] = people.get_timestamp()
-    #
-    # return people.PEOPLE[lname]
 
     # Get the person requested from the db into session
     update_person = Person.query.filter(
@@ -136,15 +103,6 @@ def delete(person_id):
     :param person_id: Id of the person to delete
     :return:          200 on successful delete, 404 if not found
     """
-
-    # if lname not in people.PEOPLE:
-    #     return None
-    #
-    # # Does the person to delete exist?
-    # else:
-    #     del people.PEOPLE[lname]
-    #
-    # return True
 
     # Get the person requested
     person = Person.query.filter(Person.person_id == person_id).one_or_none()
