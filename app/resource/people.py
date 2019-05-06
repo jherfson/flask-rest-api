@@ -7,7 +7,7 @@ bp = Blueprint('people', __name__, url_prefix='/people')
 
 
 @bp.route("/", methods=["GET", ])
-@bp.route("/<string:person_id>", methods=["GET", ])
+@bp.route("/<int:person_id>", methods=["GET", ])
 def get(person_id: int = None):
 
     if person_id is None:
@@ -53,7 +53,7 @@ def post():
     return response
 
 
-@bp.route("/<string:person_id>", methods=["PUT", ])
+@bp.route("/<int:person_id>", methods=["PUT", ])
 def put(person_id: int = None):
     person = request.form
     data = people.update(person_id, person)
@@ -79,7 +79,7 @@ def put(person_id: int = None):
     return response
 
 
-@bp.route("/<string:person_id>", methods=["DELETE", ])
+@bp.route("/<int:person_id>", methods=["DELETE", ])
 def delete(person_id: int = None):
     data = people.delete(person_id)
 
