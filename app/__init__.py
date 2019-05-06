@@ -34,7 +34,9 @@ def create_app():
 
     # registrar Blueprints
     from .resource.people import bp as bp_people
+    from .resource.note import bp as bp_note
     app.register_blueprint(bp_people)
+    app.register_blueprint(bp_note)
 
     return app
 
