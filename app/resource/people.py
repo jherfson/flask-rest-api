@@ -106,18 +106,22 @@ def person_delete(person_id: int = None):
     return response
 
 
-def note_get():
+@bp.route("/<int:person_id>/notes", methods=["GET", ])
+@bp.route("/<int:person_id>/notes/<int:note_id>", methods=["GET", ])
+def note_get(person_id:int = None, note_id:int = None):
     pass
 
 
-def note_post():
+@bp.route("</int:person_id>/notes", methods=['POST', ])
+def note_post(person_id:int = None):
     pass
 
 
-def note_put():
+@bp.route("/<int:person_id>/notes/<int:note_id>", methods=['PUT', ])
+def note_put(person_id:int = None, note_id:int = None):
     pass
 
 
-def note_delete():
+@bp.route("/api/people/<int:person_id>/notes/<int:note_id>", methods=['DELETE', ])
+def note_delete(person_id:int = None, note_id:int = None):
     pass
-
