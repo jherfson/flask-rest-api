@@ -10,6 +10,7 @@ def read_all():
     with the complete list of notes, sorted by note timestamp
     :return:                json list of all notes for all people
     """
+
     # Query the database for all the notes
     notes = Note.query.order_by(db.desc(Note.timestamp)).all()
 
@@ -28,6 +29,7 @@ def read_one(person_id, note_id):
     :param note_id:         Id of the note
     :return:                json string of note contents
     """
+
     # Query the database for the note
     note = (
         Note.query.join(Person, Person.person_id == Note.person_id)
@@ -40,11 +42,10 @@ def read_one(person_id, note_id):
     if note is not None:
         note_schema = NoteSchema()
         data = note_schema.dump(note).data
-        return data
 
-    # Otherwise, nope, didn't find that note
+        return data
     else:
-        abort(404, f"Note not found for Id: {note_id}")
+        return note
 
 
 def create(person_id, note):
