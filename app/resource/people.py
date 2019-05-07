@@ -1,5 +1,5 @@
 from flask import (make_response, Blueprint, request)
-from ..controller import people as people
+from ..controller import people, note
 from . import ReturnMessage
 import simplejson
 
@@ -106,13 +106,39 @@ def person_delete(person_id: int = None):
     return response
 
 
-@bp.route("/<int:person_id>/notes", methods=["GET", ])
+@bp.route("/<int:person_id>/notes/", methods=["GET", ])
 @bp.route("/<int:person_id>/notes/<int:note_id>", methods=["GET", ])
-def note_get(person_id:int = None, note_id:int = None):
-    pass
+def note_get(person_id: int = None, note_id: int = None):
+
+    message = {
+        "success": {
+            "message": ReturnMessage.GET_NOTE_MESSAGE.format(note_id=note_id)
+        },
+        "fail": {
+            "message": ReturnMessage.PERSON_NOTE_PARAMETER.format(person_id=person_id, note_id=note_id)
+        }
+    }
+
+    data = {}
+    if person_id is None:
+        response = make_response(simplejson.dumps(message["fail"], ensure_ascii=False), 404)
+        response.headers['Content-Type'] = 'application/json'
+    elif note_id is None:
+        data = note.read_all()
+    else:
+        data = note.read_one(person_id, note_id)
+
+        if data is None:
+            response = make_response(simplejson.dumps(data, ensure_ascii=False), 404)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+
+    response = make_response(simplejson.dumps(data, ensure_ascii=False), 200)
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 
-@bp.route("</int:person_id>/notes", methods=['POST', ])
+@bp.route("<int:person_id>/notes", methods=['POST', ])
 def note_post(person_id:int = None):
     pass
 
