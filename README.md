@@ -23,4 +23,11 @@ API criada no [FLISOL 2019](https://flisol.info/FLISOL2019/Brasil/SaoLuis) usand
 |Delete  |DELETE    |/api/people/{person_id}/notes/{note_id} |URL to delete a single person’s single note                 |
 |Read    |GET       |/api/notes                              |URL to get all notes for all people sorted by note.timestamp|
 
+### TO DO
+
+[ ] Adicionar tratamento de erros em funções.
+[ ] Criar estrutura própria de tratamento de erros.
+[ ] Adicionar Docker ao projeto.
+[ ] Cria funcoes únicas de nos resources que compartilhem mais de um verbo HTTP.
+
 ### [LICENSE](./LICENSE)
